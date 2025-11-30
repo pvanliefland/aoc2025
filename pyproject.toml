@@ -1,7 +1,21 @@
 [project]
 name = "aoc2025"
 version = "0.1.0"
-description = "Add your description here"
+description = "My AOC 2025 prokect."
 readme = "README.md"
+authors = [
+    { name = "pvanliefland" }
+]
 requires-python = ">=3.14"
 dependencies = []
+
+[project.scripts]
+aoc2025 = "aoc2025:main"
+
+[build-system]
+requires = ["uv_build>=0.9.13,<0.10.0"]
+build-backend = "uv_build"
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = ["COM812", "D203", "D213", "T201"]
