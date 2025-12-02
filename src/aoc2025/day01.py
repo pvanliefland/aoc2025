@@ -10,8 +10,8 @@ def puzzle() -> tuple[tuple[int, int], tuple[int, int]]:
 
 def compute_password(file_path: str) -> tuple[int, int]:
     """Compute password (part 1 and part 2)."""
-    with Path(f"inputs/{file_path}").open() as example_input_file:
-        data = example_input_file.read()
+    with Path(f"inputs/{file_path}").open() as input_file:
+        data = input_file.read()
     position, password1, password2 = 50, 0, 0
 
     for line in data.splitlines():
