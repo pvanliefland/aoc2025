@@ -1,5 +1,6 @@
 """Day seven."""
 
+from itertools import groupby
 from pathlib import Path
 
 
@@ -14,26 +15,23 @@ def tachyon_split(file_path: str) -> tuple[int, int]:
         data = input_file.read()
 
     rows: list[list[str]] = [list(row) for row in data.splitlines()]
-    beams = {(rows[0].index("S"), 0)}
+    beams = [(rows[0].index("S"), 1)]
     max_x = len(rows[0]) - 1
     split_count = 0
-    timelines = 0
 
-    for index, row in enumerate(rows[2:]):
-        new_beams: set[tuple[int, int]] = set()
-        same_beams = set()
+    for row in rows[2:]:
+        new_beams = []
         for beam in beams:
             if row[beam[0]] == "^":
                 split_count += 1
                 if beam[0] != 0:
-                    new_beams.add((beam[0] - 1, beam[1] + 1))
+                    new_beams.append((beam[0] - 1, beam[1]))
                 if beam[0] != max_x:
-                    new_beams.add((beam[0] + 1, beam[1] + 1))
+                    new_beams.append((beam[0] + 1, beam[1]))
             else:
-                same_beams.add((beam[0], beam[1] + 1))
+                new_beams.append((beam[0], beam[1]))
 
-        beams = new_beams | same_beams
-        if index % 2 == 1:
-            timelines += len(beams)
+        new_beams = groupby(new_beams, key=lambda b: b[0])
+        beams = [(x, sum([beam[1] for beam in beams])) for x, beams in new_beams]
 
-    return (split_count, timelines)
+    return (split_count, sum(beam[1] for beam in beams))
